@@ -1,3 +1,14 @@
+Romain AUCHET
+
+Erreurs : dans ressources/main/db/changelog/001-cretate-members-table.xml 
+il faut changer members en member 
+mettre constraintName = "referent_id"
+
+dans ressources/main/db/changelog/001-cretate-book-table.xml 
+il faut changer members en member 
+mettre constraintName = "borrower_id"
+
+
 # Test It - Prêt de livres
 
 API REST Spring Boot (Java 25) de prêt de livres pour une bibliothèque.

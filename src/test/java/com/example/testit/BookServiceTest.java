@@ -57,23 +57,19 @@ public class BookServiceTest {
     void verifierLivreRetour() {
     
         //given 
-        List<Book> ListeVide = new ArrayList();
         BookService bookService = new BookService(bookRepository, memberRepository, mailService);
         Book book = new Book("test","testeur");
         book.setStatus(Status.EMPRUNTE);
         Member member = new Member("john");
-        Mockito.when(bookRepository.findByMemberAndStatus(1l, Status.RENDU)).thenReturn(ListeVide);
-        Mockito.when(memberRepository.findById(1l)).thenReturn(Optional.of(member));
+        book.setBorrower(member);
         Mockito.when(bookRepository.findById(1l)).thenReturn(Optional.of(book));
         
         //when 
-        bookService.borrowBook(1l, 1l);
+        bookService.returnBook(1l, 1l);
         
         //then
-        Assertions.assertThat(book.getStatus()).isEqualTo(Status.EMPRUNTE);
-        Assertions.assertThat(book.getBorrower()).isEqualTo(member);
-       // Mockito.verify()
-       // Mockito.verify(virementRepository).save(Mockito.any());
+        Assertions.assertThat(book.getStatus()).isEqualTo(Status.RENDU);
+        Mockito.verify(mailService).sendMail(member, "Livre rendu", "Merci d'avoir rendu '" + book.getTitle() + "'.");
        
     }
 
