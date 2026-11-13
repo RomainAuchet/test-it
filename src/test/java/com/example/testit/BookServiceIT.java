@@ -1,5 +1,7 @@
 package com.example.testit;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,8 @@ public class BookServiceIT {
         bookService.borrowBook(book.getId(), member.getId());
         bookService.returnBook(book.getId(), member.getId());
         //then
-        Assertions.assertThat(book.getStatus()).isEqualTo(Status.RENDU);
+        Optional<Book> booksaved = bookRepository.findById(book.getId());
+        Assertions.assertThat(booksaved.get().getStatus()).isEqualTo(Status.RENDU);
         
     }
 }
